@@ -9,7 +9,7 @@ namespace TechNationFinanceiroApi.Services.Interface
 
         public NotaFiscal? GetNotaFiscal(int id);
 
-        public NotaFiscal? PostNotaFiscal(NotaFiscal? notaFiscal);
+        public NotaFiscal PostNotaFiscal(NotaFiscal notaFiscal);
 
         public Boolean PutNotaFiscal(int id, NotaFiscal notaFiscal);
 

@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TechNationFinanceiroApi.Models;
 using TechNationFinanceiroApi.Services;
 using TechNationFinanceiroApi.Services.Interface;
@@ -24,50 +23,77 @@ namespace TechNationFinanceiroApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<NotaFiscal>> GetNotasFiscais()
         {
-            return Ok(_service.GetNotasFiscais());
+            try
+            {
+                return Ok(_service.GetNotasFiscais());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao recuperar as Notas Fiscais: {ex.Message}");
+            }
         }
 
         // GET: api/NotasFiscais/5
         [HttpGet("{id}")]
         public ActionResult<NotaFiscal> GetNotaFiscal(int id)
         {
-            var notaFiscal = _service.GetNotaFiscal(id);
-
-            if (notaFiscal == null)
+            try
             {
-                return NotFound();
-            }
+                var notaFiscal = _service.GetNotaFiscal(id);
 
-            return notaFiscal;
+                if (notaFiscal == null)
+                {
+                    return NotFound();
+                }
+
+                return notaFiscal;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao recuperar a Nota Fiscal com ID {id}: {ex.Message}");
+            }
         }
 
         // POST: api/NotasFiscais
         [HttpPost]
-        public ActionResult<NotaFiscal> PostNotaFiscal(NotaFiscal? notaFiscal)
+        public ActionResult<NotaFiscal> PostNotaFiscal(NotaFiscal notaFiscal)
         {
-            notaFiscal = _service.PostNotaFiscal(notaFiscal);
-
-            return Ok(notaFiscal);
+            try
+            {
+                var result = _service.PostNotaFiscal(notaFiscal);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao criar a Nota Fiscal: {ex.Message}");
+            }
         }
 
         // PUT: api/NotasFiscais/5
         [HttpPut("{id}")]
         public IActionResult PutNotaFiscal(int id, NotaFiscal notaFiscal)
         {
-            if (id != notaFiscal.Id)
+            try
             {
-                return BadRequest("ID mismatch");
-            }
+                if (id != notaFiscal.Id)
+                {
+                    return BadRequest("ID mismatch");
+                }
 
-            var result = _service.PutNotaFiscal(id, notaFiscal);
+                bool result = _service.PutNotaFiscal(id, notaFiscal);
 
-            if (result)
-            {
-                return Ok();
+                if (result)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao atualizar a Nota Fiscal");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao atualizar a Nota Fiscal");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao atualizar a Nota Fiscal com ID {id}: {ex.Message}");
             }
         }
 
@@ -75,11 +101,18 @@ namespace TechNationFinanceiroApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteNotaFiscal(int id)
         {
-            if (_service.DeleteNotaFiscal(id))
+            try
             {
-                return Ok();
+                if (_service.DeleteNotaFiscal(id))
+                {
+                    return Ok();
+                }
+                return NotFound();
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao excluir a Nota Fiscal com ID {id}: {ex.Message}");
+            }
         }
     }
 }
