@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 namespace TechNationFinanceiroApi.Models
 {
@@ -10,7 +8,8 @@ namespace TechNationFinanceiroApi.Models
             : base(options)
         {
         }
-        public DbSet<NotaFiscal> NotasFiscais { get; set; }
 
+        public DbSet<NotaFiscal> NotasFiscais { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

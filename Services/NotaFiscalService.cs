@@ -48,6 +48,12 @@ namespace TechNationFinanceiroApi.Services
                 throw new ArgumentNullException(nameof(notaFiscal));
             }
 
+            // Validar o status da nota fiscal
+            if (!IsValidStatus(notaFiscal.Status))
+            {
+                throw new ArgumentException("Status inválido para criação de nota fiscal.", nameof(notaFiscal.Status));
+            }
+
             try
             {
                 _context.NotasFiscais.Add(notaFiscal);
@@ -112,7 +118,15 @@ namespace TechNationFinanceiroApi.Services
 
         private bool NotaFiscalExists(int id)
         {
+            //verificação se a nota fiscal existe no banco
             return _context.NotasFiscais.Any(e => e.Id == id);
+        }
+        private bool IsValidStatus(string status)
+        {
+            // Lista de status válidos para criação de notas fiscais
+            var validStatus = new[] { "Emitida", "Cobrança realizada", "Pagamento em atraso", "Pagamento realizado" };
+
+            return Array.IndexOf(validStatus, status) != -1;
         }
     }
 }
