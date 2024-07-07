@@ -7,6 +7,7 @@ using TechNationFinanceiroApi.Models;
 using TechNationFinanceiroApi.Services;
 using TechNationFinanceiroApi.Services.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using TechNationFinanceiroApi.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,7 +57,39 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "TechNationFinanceiroApi", Version = "v1" });
+
+    // Registro do filtro personalizado JWT
+    c.OperationFilter<JwtTokenOperationFilter>();
+
+    // Configuração do SecurityDefinition e SecurityRequirement para JWT no Swagger
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 var app = builder.Build();
 
