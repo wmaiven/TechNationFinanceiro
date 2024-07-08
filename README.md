@@ -8,7 +8,7 @@
   - Passo 6: Rodar o comando `docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=NovaSenha123!" -p 1433:1433 --sqlserver-container2 -d mcr.microsoft.com/mssql/server:latest` para criar a imagem docker do sqlserver
   - Passo 7: Rodar o comando `docker network connect thechnationnetwork sqlserver-container2` para conectar a nossa imagem docker sqlserver com a network
   - Passo 7: Acessar o sql management studio com o nome do servidor `localhost,1433` usaurio `sa` senha `NovaSenha123!`
-  - Passo 8: Rodar os scripts para a criação do banco de dados tabelas e inserção dos dados
+  - Passo 8: Criar banco de dados TechNationFinanceiroDB e Rodar os scripts para a criação de dados tabelas e inserção dos dados
   - Passo 9: Reiniciar as imagens docker do back-end e do banco de dados
   - Passo 9.1: (recomendado) rodar o comando  docker inspect thechnationnetwork e verificar se o banco e o back-end está conectado
   - Aviso: cuidado ao compilar a aplicação pois as vezes o back-end se desconcta com a network caso ocorres basta rodar o comando `docker network connect thechnationnetwork TechNationFinanceiroApi` e reiniciar a imagem do back-end
