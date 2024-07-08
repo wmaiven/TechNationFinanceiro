@@ -18,5 +18,5 @@
       "username": "admin",
       "password": "senha123"
     }
-  -Passo 10.1 Tendo o token basta adiciona-lo em authorize do Swagger ou envialo no header da aplicação como token baerer
+  - Passo 10.1 Tendo o token basta adiciona-lo em authorize do Swagger ou envialo no header da aplicação como token baerer
       
