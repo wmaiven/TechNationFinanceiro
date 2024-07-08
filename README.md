@@ -5,7 +5,7 @@
   - passo 3: Rodar a aplicação através do dockerfile para criar a imagem do back-end que no meu caso era TechNationFinanceiroApi
   - passo 4: Rodar o comando `docker network create thechnationnetwork` para criar a network que irá conectar o back-end e o sqlserver
   - passo 5: Rodar o comando `docker network connect thechnationnetwork TechNationFinanceiroApi` para conectar o back-end com a nwtwork
-  - Passo 6: Rodar o comando `docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=NovaSenha123!" -p 1433:1433 --sqlserver-container2 -d mcr.microsoft.com/mssql/server:latest` para criar a imagem docker do sqlserver
+  - Passo 6: Rodar o comando `docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=NovaSenha123!" -p 1433:1433 --name sqlserver-container2 -d mcr.microsoft.com/mssql/server:latest` para criar a imagem docker do sqlserver
   - Passo 7: Rodar o comando `docker network connect thechnationnetwork sqlserver-container2` para conectar a nossa imagem docker sqlserver com a network
   - Passo 7: Acessar o sql management studio com o nome do servidor `localhost,1433` usaurio `sa` senha `NovaSenha123!`
   - Passo 8: Criar banco de dados TechNationFinanceiroDB e Rodar os scripts para a criação de dados tabelas e inserção dos dados
